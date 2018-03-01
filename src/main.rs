@@ -3,6 +3,8 @@ fn main() {
     println!("{}", encoded);
     let decoded = decode(&encoded);
     println!("{}", decoded);
+    let e = String::from("a%");
+    println!("{}", decode(&e));
 }
 
 fn encode(target: &String) -> String {
@@ -22,7 +24,7 @@ fn encode(target: &String) -> String {
     }
     output
 }
-
+#[derive(PartialEq)]
 enum ScanMode {
     Normal, Escape
 }
@@ -40,6 +42,9 @@ fn decode(target: &String) -> String {
                mode = escape_scan(c, &mut output, &mut buffer);
            }
        }
+    }
+    if mode == ScanMode::Escape {
+        panic!("Unknown escape: %{}", buffer)
     }
     output
 }
@@ -73,7 +78,7 @@ fn escape_scan(c: char, output: &mut String, buffer: &mut String) -> ScanMode {
             "C3%B6" => 'ö',
             "C3%85" => 'Å',
             "C3%A5" => 'Å',
-            _ => panic!("Unknown {}", buffer),
+            _ => panic!("Unknown escape: %{}", buffer),
         });
         buffer.clear();
         ScanMode::Normal
