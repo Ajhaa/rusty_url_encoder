@@ -4,3 +4,5 @@ version = "0.1.0"
 authors = ["ajhaarni <atte.h.1998@gmail.com>"]
 
 [dependencies]
+phf = "0.7"
+phf_macros = "0.7"
